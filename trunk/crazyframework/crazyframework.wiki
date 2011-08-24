@@ -1,0 +1,22 @@
+#-- MyBatis 
+Eclipse:/crazyframework/src/main/resources/mybatis/context.mybatis.xml
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/mapper/AccountBatchMapper.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/mapper/AccountBatchMapper.xml
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/domain/Account.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/common/CRUDService.java
+
+Eclipse:/crazyframework/src/test/java/org/beyondj2ee/crazyframework/test/mybatis/AccountMapperTest.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/mapper/AccountMapper.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/mapper/AccountMapper.xml
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/service/account/AccountService.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/service/account/impl/AccountServiceImpl.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/controller/AccountController.java
+
+Eclipse://crazyframework/src/main/webapp/WEB-INF/views/mybatis/get.jsp
+Eclipse://crazyframework/src/main/webapp/WEB-INF/views/mybatis/getAll.jsp
+Eclipse://crazyframework/src/main/webapp/WEB-INF/views/mybatis/modifyForm.jsp
+Eclipse://crazyframework/src/main/webapp/WEB-INF/views/mybatis/createForm.jsp
+
+http://localhost:9090/crazyframework/mybatis/getAll.htm
+
+
