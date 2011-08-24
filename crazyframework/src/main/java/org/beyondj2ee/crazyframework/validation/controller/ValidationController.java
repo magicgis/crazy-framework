@@ -43,7 +43,7 @@ public class ValidationController {
 
 	}
 	
-	// ===== JSR 303 Validation ===== 
+	// ===== JSR 303 Validation for Form ===== 
 	/**
 	 * Creates the form.
 	 * 
