@@ -187,7 +187,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-	
+
 		<!-- Apache Commons -->
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -367,14 +367,26 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<!-- hsql -->
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>1.8.0.10</version>
 		</dependency>
-	</dependencies>
 
+		<!-- validation -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<finalName>crazyframework</finalName>
 	</build>
