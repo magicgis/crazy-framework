@@ -24,8 +24,7 @@
 	</listener>
 	<listener>
 		<listener-class>
-			org.springframework.web.context.request.RequestContextListener
-		</listener-class>
+			org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
 	<filter>
@@ -46,8 +45,9 @@
 	</filter-mapping>
 
 
+	<!-- mybatis -->
 	<servlet>
-		<servlet-name>mvcDispatcher</servlet-name>
+		<servlet-name>mybatisDispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -58,10 +58,27 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>mvcDispatcher</servlet-name>
+		<servlet-name>mybatisDispatcher</servlet-name>
 		<url-pattern>/mybatis/*</url-pattern>
 	</servlet-mapping>
- 
+
+	<!-- jsr303 -->
+	<servlet>
+		<servlet-name>validationDispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:/validation/servlet.mvc.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>validationDispatcher</servlet-name>
+		<url-pattern>/validation/*</url-pattern>
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
