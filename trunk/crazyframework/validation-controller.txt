@@ -1,0 +1,531 @@
+/* Copyright (c) 2011 SKTelecom, Inc.
+ * All right reserved.
+ * http://www.skt.com/
+ * This software is the confidential and proprietary information of SKTelecom
+ * , Inc. You shall not disclose such Confidential Information and
+ * shall use it only in accordance with the terms of the license agreement
+ * you entered into with SKTtelecom.
+ *
+ * Desc :  .
+ * Service Name : CLS.
+ * Author  : .
+ * Date    : 2011. 1. 25 오후 9:28:24.
+ * File   : ShowcaseController.java
+ */
+package com.skt.cls.web.admin.appcomp.showcase;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.skt.cls.commons.utility.ExcelView;
+import com.skt.cls.framework.base.BaseController;
+import com.skt.cls.framework.base.Constants;
+import com.skt.cls.framework.utils.CommonUtil;
+import com.skt.cls.commons.utility.CommonUtils;
+import com.skt.cls.framework.utils.FileUtil;
+import com.skt.cls.framework.web.WebDomain;
+import com.skt.cls.object.common.entity.LmAtta;
+import com.skt.cls.object.objectcomp.showcase.entity.Dept;
+import com.skt.cls.object.objectcomp.showcase.entity.Emp;
+import com.skt.cls.object.objectcomp.showcase.entity.EmpJoin;
+import com.skt.cls.service.appcomp.showcase.ShowcaseService;
+import com.skt.cls.service.appcomp.showcase.dto.ShowcaseDTO;
+import com.skt.cls.service.appcomp.showcase.dto.ShowcaseDTOCreateValidator;
+import com.skt.cls.service.common.CommonService;
+
+/**
+ * The Class ShowcaseController.
+ */
+// -#1
+@Controller
+@RequestMapping("/appcomp")
+public class ShowcaseController extends BaseController {
+
+	/** The Constant log. */
+	private static final Logger logger = LoggerFactory.getLogger(ShowcaseController.class);
+
+	/** The showcase service. */
+	// -#2
+	@Autowired
+	private ShowcaseService showcaseService;
+
+	@Autowired
+	private CommonService commonService;
+
+	@Autowired
+	private MessageSourceAccessor msAccessor;
+
+	@Autowired
+	private ShowcaseDTOCreateValidator showcaseDTOCreateValidator;
+
+	@Autowired
+	private ExcelView excelView;
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Forward jsp.
+	 */
+	// -#3
+	@RequestMapping(value = "/showcase/*", method = RequestMethod.GET)
+	public void forwardJSP() throws Exception {
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Read showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	// #1
+	@RequestMapping(value = "/showcase/readShowcase", method = RequestMethod.POST)
+	public final void readShowcaseAjax(
+			@ModelAttribute final ShowcaseDTO showcaseDTO, final ModelMap map)
+			throws Exception {
+		// #2
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Emp emp = this.showcaseService.findEmpnoByEmpno(showcaseDTO);
+		resultMap.put("emp", emp);
+		// spring map
+		map.put("resultMap", resultMap);
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * List showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/listShowcase", method = RequestMethod.POST)
+	public final void listShowcaseAjax(
+			@ModelAttribute final ShowcaseDTO showcaseDTO, final ModelMap map)
+			throws Exception {
+
+		// 한페이지에 보여줄 row 수. 이 값은 Mysql 쿼리에서 LIMIT 마지막 부분 변수.
+		// 즉 SELECT * FROM emp LIMIT 10,[여기에 들어갈 변수]
+		showcaseDTO.setEndPageIdx(getConfiguration().getInt(
+				"cls.ui.row.perpage"));
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<Emp> empList = this.showcaseService.findShowcaseList(showcaseDTO);
+
+		resultMap.put(WebDomain.PAGE_LIST_NAME, empList);
+		resultMap.put(WebDomain.TOTAL_COUNT_NAME,
+				this.showcaseService.findShowcaseListTotalCount(showcaseDTO));
+
+		map.put("resultMap", resultMap);
+	}
+
+	/**
+	 * <p>
+	 * Excel 출력하기
+	 * </p>
+	 * List showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/excelShowcase", method = RequestMethod.GET)
+	public final ModelAndView excelShowcase(
+			@ModelAttribute final ShowcaseDTO showcaseDTO) throws Exception {
+
+		// Excel 출력할 목록
+		List<Emp> empList = this.showcaseService.findShowcaseList(showcaseDTO);
+
+		// 출력할 뷰
+		ModelAndView mav = new ModelAndView(excelView);
+		mav.addObject("excelView", empList);
+
+		// 출력할 파일명
+		mav.addObject("fileName", "테스트");
+
+		// header
+		ModelMap headerMap = new ModelMap();
+		headerMap.put("header0", "사원번호");
+		headerMap.put("header1", "사원명");
+		headerMap.put("header2", "부서번호");
+		headerMap.put("header3", "부서명");
+		mav.addObject("headerMap", headerMap);
+
+		// attribute
+		ModelMap attributeMap = new ModelMap();
+		attributeMap.put("attribute0", "empno");
+		attributeMap.put("attribute1", "empName");
+		attributeMap.put("attribute2", "deptno");
+		attributeMap.put("attribute3", "empJoin.deptName");
+		mav.addObject("attributeMap", attributeMap);
+
+		return mav;
+
+	}
+
+	/**
+	 * <p>
+	 * Excel 입력하기
+	 * </p>
+	 * List showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/popupExcelUpload", method = {RequestMethod.GET, RequestMethod.POST} )
+	public final ModelAndView popupExcelUpload(
+			@ModelAttribute final ShowcaseDTO showcaseDTO, final HttpServletRequest request) throws Exception {
+
+		final String TEMP_FILE_PATH = getConfiguration().getString("cls.temp.file.path");
+
+		// 
+		ModelAndView mav = new ModelAndView();
+		String process = ServletRequestUtils.getStringParameter(request, "process", "");
+		String filename = ServletRequestUtils.getStringParameter(request, "filename", "");
+		String[] empnos = ServletRequestUtils.getStringParameters(request, "empnos");
+		String[] empNames = ServletRequestUtils.getStringParameters(request, "empNames");
+		String[] deptnos = ServletRequestUtils.getStringParameters(request, "deptnos");
+		String[] statuses = ServletRequestUtils.getStringParameters(request, "statuses");
+
+		// 유효성체크
+
+		try {
+
+			if(process.equals("excel_insert")) {
+
+				CommonsMultipartFile file = this.getFile(request, "excelFile");
+				if (!file.getFileItem().getName().toLowerCase().endsWith("xls")) {
+					logger.debug("엑셀파일만 업로드 가능합니다.");
+				}				
+				
+				// TEMP에 저장
+				LmAtta tmp_file = CommonUtils.getAtFile(request, "excelFile", TEMP_FILE_PATH);
+				filename = tmp_file.getFileNm();
+				
+//				Map<String, Object> map = new HashMap<String, Object>();
+				
+				String exFilePath = TEMP_FILE_PATH;
+				File exFile = new File(exFilePath + Constants.FILE_SEPARATOR_SLASH + filename);		
+				FileInputStream exFileStream = new FileInputStream(exFile);
+
+				// 파일로부터 데이터 취득
+				List<List<Object>> excelDataList = FileUtil.excelFileParsingNvlList(exFileStream);
+
+				// 화면표시
+				List<ShowcaseDTO> excelList = new ArrayList<ShowcaseDTO>();
+
+				// 유효성체크
+				Integer[] requiredFieldNo = new Integer[]{0, 1, 2};
+				FileUtil.validateRequiredField(excelDataList, requiredFieldNo);
+
+				if (excelDataList.size() > 0) {
+					for (int i = 0; i < excelDataList.size(); i++) {
+						ShowcaseDTO sc = new ShowcaseDTO();
+						Emp emp = new Emp();
+						Dept dept = new Dept();
+						StringBuffer sb = new StringBuffer();
+						
+						List data = excelDataList.get(i);
+						String empno = (String) data.get(0);
+						String empName = (String) data.get(1);
+						String deptno = (String) data.get(2);
+
+						emp.setEmpno(Integer.parseInt(empno.trim()));
+						emp.setEmpName(empName.trim());
+						emp.setDeptno(Integer.parseInt(deptno.trim()));
+						sc.setEmp(emp);
+
+						dept.setDeptno(Integer.parseInt(deptno.trim()));
+						sc.setDept(dept);
+
+						// primary key check
+						if (empno.trim().length() < 1) {
+							sb.append("ENO_ERROR");
+						} else {
+							Emp rtv = showcaseService.findEmpnoByEmpno(sc);
+							if (rtv == null) {
+								sb.append("OK");
+							} else {
+								sb.append("ENO_ERROR");
+							}
+						}
+						if (empName.trim().length() < 1 || empName.trim().length() > 25) {
+							sb.append("ENA_ERROR");
+						}
+						if (deptno.trim().length() < 1) {
+							sb.append("DNO_ERROR");
+						} else {
+							Dept rtv = showcaseService.findDeptnoByDeptno(sc);
+							if (rtv == null) {
+								sb.append("DNO_ERROR");
+							}
+						}
+						sc.setExcelStatus(sb.toString());
+						excelList.add(sc);
+					}
+					
+				}
+				mav.addObject("excelList", excelList);
+				mav.addObject("process", "excel_upload");
+
+				// 임시저장파일 삭제
+				try{
+					if (!filename.equals("")) {
+						filename = exFilePath + Constants.FILE_SEPARATOR_SLASH + filename;
+						FileUtil.deleteFile(filename);
+					}
+				} catch (Exception fe) {
+						
+			}				
+//				sendAlertNew(request,"scripts.common.saveSuccess");
+
+				return mav;
+				
+			} else if (process.equals("insert")) {
+				int rtv = 0;
+				ShowcaseDTO sc = new ShowcaseDTO();
+				Emp emp = new Emp();
+				
+				for(int i=0; i<empnos.length; i++){
+					if(statuses[i].equals("OK")) {
+						emp.setEmpno(Integer.parseInt(empnos[i]));
+						emp.setEmpName(empNames[i]);
+						emp.setDeptno(Integer.parseInt(deptnos[i]));
+						
+						sc.setEmp(emp);
+						rtv = showcaseService.createEmp(sc);
+					}
+					mav.addObject("sucessCnt", rtv);
+				}
+				if (rtv > -1) {
+					mav.addObject("process", "insert_complete");
+				} else {
+					mav.addObject("process", "insert_fail");					
+				}
+			}
+			
+		} catch(Exception e) {
+			//그외 에러에 대한 처리
+			e.printStackTrace();
+			// 임시저장파일 삭제
+			try{
+				if (!filename.equals(""))
+					FileUtil.deleteFile(filename);
+			} catch(Exception fe){
+			}
+
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("readExcelShowcase() - end");
+		}
+
+		return mav;
+
+	}
+	
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/createShowcase", method = RequestMethod.POST)
+	public void createShowcaseAjax(@ModelAttribute ShowcaseDTO showcaseDTO,
+			BindingResult result, ModelMap map, @RequestParam String exception)
+			throws Exception {
+
+		// System Exception
+		if ("0".equals(exception)) {
+			showcaseService.createException(showcaseDTO);
+		}
+		else if("1".equals(exception)) {
+			// Custom Exception
+			showcaseService.createRunTimeException(showcaseDTO);
+		} else {
+			showcaseDTOCreateValidator.validate(showcaseDTO, result);
+		}
+		
+		if (result.hasErrors()) {
+			return;
+		}
+
+		// showcaseService.createShowcase(showcaseDTO);
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Update showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/updateShowcase", method = RequestMethod.POST)
+	public final void updateShowcaseAjax(
+			@ModelAttribute final ShowcaseDTO showcaseDTO, final ModelMap map)
+			throws Exception {
+		showcaseService.modifyShowcase(showcaseDTO);
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the file upload process showcase.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/createFileUploadProcessShowcase", method = RequestMethod.POST)
+	public final void createFileUploadProcessShowcase(
+			@RequestParam final String filename,
+			@RequestParam final MultipartFile file1) throws Exception {
+		logger.info("#########" + IOUtils.toString(file1.getInputStream()));
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the form proc showcase.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/createFormProcShowcase", method = RequestMethod.POST)
+	public final void createFormProcShowcase(
+			@ModelAttribute final ShowcaseDTO showcaseDTO,
+			BindingResult result, ModelMap map) throws Exception {
+		map.put("invalid", "false");
+		showcaseDTOCreateValidator.validate(showcaseDTO, result);
+		if (result.hasErrors()) {
+			map.put("invalid", result.hasErrors());
+		}
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Delete showcase ajax.
+	 * 
+	 * @param showcaseDTO the showcase dto
+	 * @param map the map
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/deleteShowcase", method = RequestMethod.POST)
+	public final void deleteShowcaseAjax(
+			@ModelAttribute final ShowcaseDTO showcaseDTO, final ModelMap map)
+			throws Exception {
+		showcaseService.removeShowcase(showcaseDTO);
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase datePicker.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/datePickerShowcase", method = RequestMethod.POST)
+	public final void datePickerShowcase() throws Exception {
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase treeMenu.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/treeMenuShowcase", method = RequestMethod.POST)
+	public final void treeMenuShowcase() throws Exception {
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase chart.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/chartShowcase", method = RequestMethod.POST)
+	public final void chartShowcase() throws Exception {
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase grid.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/gridShowcase", method = RequestMethod.POST)
+	public final void gridShowcase() throws Exception {
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase tableOrderBy.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/tableOrderByShowcase", method = RequestMethod.POST)
+	public final void tableOrderByShowcase() throws Exception {
+	}
+
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Creates the showcase data validation.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@RequestMapping(value = "/showcase/validationShowcase", method = RequestMethod.POST)
+	public final void validationShowcase() throws Exception {
+	}
+
+}
