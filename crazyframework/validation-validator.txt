@@ -1,0 +1,60 @@
+/* Copyright (c) 2011 SKTelecom, Inc.
+ * All right reserved.
+ * http://www.skt.com/
+ * This software is the confidential and proprietary information of SKTelecom
+ * , Inc. You shall not disclose such Confidential Information and
+ * shall use it only in accordance with the terms of the license agreement
+ * you entered into with SKTtelecom.
+ *
+ * Desc :  .
+ * Service Name : CLS.
+ * Author  : .
+ * Date    : 2011. 2. 28 오전 11:17:29.
+ * File   : EmpValidator.java
+*/
+package com.skt.cls.service.appcomp.showcase.dto;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import com.skt.cls.framework.utils.ValidatorUtils;
+
+/**
+ * The Class EmpValidator.
+ */
+public class ShowcaseDTOUpdateValidator implements Validator {
+
+	/** The Constant log. */
+	private static final Logger log = LoggerFactory
+	.getLogger(ShowcaseDTOUpdateValidator.class);
+	
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Supports.
+	 * 
+	 * @param clazz the clazz
+	 * @return true, if successful
+	 */
+	public boolean supports(Class clazz) {
+		return ShowcaseDTO.class.equals(clazz);
+	}
+	
+	/**
+	 * <p>
+	 * description about class
+	 * </p>
+	 * Validate.
+	 * 
+	 * @param obj the obj
+	 * @param errors the errors
+	 */
+	public void validate(Object obj, Errors errors) {
+		ShowcaseDTO showcaseDTO = (ShowcaseDTO) obj;
+		ValidatorUtils.rejectIfEmpty(errors, "emp.empName", "ShowcaseDTO.empno.NotNull");
+	}
+}
