@@ -55,7 +55,8 @@
 		</property>
 		<property name="defaultViews">
 			<list>
-				<bean name="jsonView" class="org.beyondj2ee.crazyframework.ajax.controller.AjaxView"/>
+				<bean name="jsonView"
+					class="org.beyondj2ee.crazyframework.ajax.controller.AjaxView" />
 			</list>
 		</property>
 	</bean>
@@ -63,12 +64,17 @@
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
 		p:order="1" />
 
+	<bean id="exceptionResolver" class="org.beyondj2ee.crazyframework.ajax.controller.JsonExceptionResolver"
+		p:exceptionJsonView="jsonView" p:exceptionJSPView="/errors"
+		p:jsonExtention="ajax"/>
+
 	<!-- message bundle -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
 				<value>validation.validation</value>
+				<value>ajax.exception</value>
 			</list>
 		</property>
 	</bean>
