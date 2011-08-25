@@ -78,7 +78,24 @@
 		<servlet-name>validationDispatcher</servlet-name>
 		<url-pattern>/validation/*</url-pattern>
 	</servlet-mapping>
-
+	
+	<!-- ajax -->
+	<servlet>
+		<servlet-name>ajaxDispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:/ajax/servlet.mvc.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ajaxDispatcher</servlet-name>
+		<url-pattern>/ajax/*</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

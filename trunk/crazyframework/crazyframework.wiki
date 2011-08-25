@@ -25,3 +25,8 @@ Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/validation/c
 Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/createForm.jsp
 Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/index.jsp
 Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/createSpringForm.jsp
+
+#-- ajax
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/ajax/controller/AjaxController.java
+Eclipse:/crazyframework/src/main/webapp/WEB-INF/views/ajax/index.jsp
+Eclipse:/crazyframework/src/main/resources/ajax/servlet.mvc.xml

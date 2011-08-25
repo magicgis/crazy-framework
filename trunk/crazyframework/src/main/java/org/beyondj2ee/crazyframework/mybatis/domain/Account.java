@@ -2,12 +2,17 @@ package org.beyondj2ee.crazyframework.mybatis.domain;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = 8751282105532159742L;
 
+	@NotEmpty
 	private String userid;
+	@NotEmpty
 	private String email;
+	@NotEmpty
 	private String name;
 
 	public String getUserid() {
