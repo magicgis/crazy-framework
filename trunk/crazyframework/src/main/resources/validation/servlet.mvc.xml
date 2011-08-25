@@ -73,4 +73,7 @@
 			<ref bean="messageSource" />
 		</constructor-arg>
 	</bean>
+	
+	<!-- validation -->
+	<bean id="memberValidator" class="org.beyondj2ee.crazyframework.validation.controller.MemberValidator"/>
 </beans>
