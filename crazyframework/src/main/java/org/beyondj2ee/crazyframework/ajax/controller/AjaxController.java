@@ -61,4 +61,21 @@ public class AjaxController {
 			logger.info("do process.............");
 		}
 	}
+	
+	@RequestMapping(value = "/exception", method = RequestMethod.POST)
+	public final void exception(@ModelAttribute final Member member,
+			BindingResult result, final ModelMap map,
+			final HttpServletRequest request) throws Exception {
+		
+		String value = null;
+		value.indexOf("--");
+	}
+	
+	@RequestMapping(value = "/exceptionForm", method = RequestMethod.GET)
+	public final void exceptionGet(@ModelAttribute final Member member,
+			BindingResult result, final ModelMap map,
+			final HttpServletRequest request) throws Exception {
+		String value = null;
+		value.indexOf("--");
+	}
 }

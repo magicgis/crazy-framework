@@ -38,7 +38,9 @@
 			</tr>
 		</table>
 		<input type="button" value="조회" id="search" /> &nbsp;
-		<input type="button" value="저장" id="save" /> 
+		<input type="button" value="저장" id="save" />  &nbsp;
+		<input type="button" value="AjaxException" id="exception" />&nbsp;
+		<input type="button" value="FormException" id="FormException" />
 	</form>
 
 	<!-- javascript -->
@@ -48,6 +50,10 @@
 	<script>
 	var listURL = "<c:url value='/ajax/getAll.ajax'/>";
 	var saveURL = "<c:url value='/ajax/create.ajax'/>";
+	var exceptionURL = "<c:url value='/ajax/exception.ajax'/>";
+	var exceptionFormURL = "<c:url value='/ajax/exceptionForm.htm'/>";
+	
+	
 	
 	//-- window onLoad --------------------------------
 	$(document).ready(function() {
@@ -74,6 +80,25 @@
         			alert(xhr.status);
        	        });
     	});
+     
+     // -- exception ajax event --------------------------------
+        $("#exception").bind("click", function(e) {
+       	 params = {
+      			 "userid":$("#userid").val(),
+                "email":$("#email").val(),
+                 "name":$("#name").val()
+	        };
+       	invokeAjax("POST", exceptionURL, params, 
+      	        function (data, textStatus,xhr) {
+       			alert(xhr.responseText);
+       			alert(xhr.status);
+      	        });
+   		});
+     
+     // -- exception form event --------------------------------
+        $("#FormException").bind("click", function(e) {
+       	 	location.href=exceptionFormURL;
+   		});
 	});
 
 	//ajax library
