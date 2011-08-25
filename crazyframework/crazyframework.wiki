@@ -28,5 +28,9 @@ Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/createSpringFo
 
 #-- ajax
 Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/ajax/controller/AjaxController.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/ajax/controller/AjaxView.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/ajax/controller/JsonParser.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/ajax/controller/JsonViewCallback.java
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/ajax/controller/StandartErrorConverter.java
 Eclipse:/crazyframework/src/main/webapp/WEB-INF/views/ajax/index.jsp
 Eclipse:/crazyframework/src/main/resources/ajax/servlet.mvc.xml
