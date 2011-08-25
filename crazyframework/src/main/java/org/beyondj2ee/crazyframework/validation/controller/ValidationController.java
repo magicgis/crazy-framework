@@ -84,7 +84,7 @@ public class ValidationController {
 		return mav;
 	}
 
-	// ===== JSR 303 Validation for Form =====
+	// ===== Spring Validation for Form =====
 	/**
 	 * Creates the form.
 	 * 
