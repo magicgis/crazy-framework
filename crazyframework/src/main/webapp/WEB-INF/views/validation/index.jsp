@@ -18,5 +18,7 @@
 </head>
 <body>
 <a href="<c:url value='/validation/createForm.htm'/>">(1) JSR303 Form Validation</a>
+<br/>
+<a href="<c:url value='/validation/createSpringForm.htm'/>">(2) SpringValidation Form Validation</a>
 </body>
 </html>

@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,9 @@ public class ValidationController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ValidationController.class);
 
+	@Autowired
+	private MemberValidator memberValidator;
+	
 	/**
 	 * Gets the all.
 	 * 
@@ -32,18 +36,18 @@ public class ValidationController {
 	 * @return the all
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public final void index(final ModelMap map,
-			final HttpServletRequest request) throws Exception {
+	public final void index(final ModelMap map, final HttpServletRequest request)
+			throws Exception {
 
 	}
-	
+
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public final void success(final ModelMap map,
 			final HttpServletRequest request) throws Exception {
 
 	}
-	
-	// ===== JSR 303 Validation for Form ===== 
+
+	// ===== JSR 303 Validation for Form =====
 	/**
 	 * Creates the form.
 	 * 
@@ -68,17 +72,54 @@ public class ValidationController {
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public final ModelAndView create(@Valid final Member member,
-			BindingResult result,
-			final ModelMap map, final HttpServletRequest request)
-			throws Exception {
+			BindingResult result, final ModelMap map,
+			final HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/validation/success.htm");
-		
+
 		if (result.hasErrors()) {
 			mav.setViewName("/createForm");
 			return mav;
-		} 
+		}
 		return mav;
 	}
-	
+
+	// ===== JSR 303 Validation for Form =====
+	/**
+	 * Creates the form.
+	 * 
+	 * @param map
+	 *            the map
+	 * @param request
+	 *            the request
+	 */
+	@RequestMapping(value = "/createSpringForm", method = RequestMethod.GET)
+	public final void createSpringForm(final ModelMap map,
+			final HttpServletRequest request) throws Exception {
+		map.put("member", new Member());
+	}
+
+	/**
+	 * Creates the.
+	 * 
+	 * @param map
+	 *            the map
+	 * @param request
+	 *            the request
+	 */
+	@RequestMapping(value = "createSpring", method = RequestMethod.POST)
+	public final ModelAndView createSpring(Member member,
+			BindingResult result, final ModelMap map,
+			final HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/validation/success.htm");
+
+		memberValidator.validate(member, result);
+		
+		if (result.hasErrors()) {
+			mav.setViewName("/createSpringForm");
+			return mav;
+		}
+		return mav;
+	}
 }
