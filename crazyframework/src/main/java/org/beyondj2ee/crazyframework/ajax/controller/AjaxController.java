@@ -46,7 +46,6 @@ public class AjaxController {
 			throws Exception {
 	}
 	
-	
 	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
 	public final void getAll(final ModelMap map,
 			final HttpServletRequest request) throws Exception {

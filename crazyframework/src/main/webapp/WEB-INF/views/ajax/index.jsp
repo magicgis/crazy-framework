@@ -41,8 +41,6 @@
 		<input type="button" value="저장" id="save" /> 
 	</form>
 
-	
-
 	<!-- javascript -->
 	<script src="<c:url value='/js/jquery/jquery-1.6.2.js'/>"
 		type="text/javascript"></script>
@@ -59,7 +57,7 @@
  	        };
         	invokeAjax("POST", listURL, params, 
        	        function (data, textStatus,xhr) {
-        			alert(xhr.responseText)
+        			alert(xhr.responseText);
        	        });
     	});
         
@@ -72,7 +70,8 @@
  	        };
         	invokeAjax("POST", saveURL, params, 
        	        function (data, textStatus,xhr) {
-        			alert(xhr.responseText)
+        			alert(xhr.responseText);
+        			alert(xhr.status);
        	        });
     	});
 	});
