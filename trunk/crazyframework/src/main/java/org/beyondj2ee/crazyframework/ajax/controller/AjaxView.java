@@ -33,7 +33,7 @@ public class AjaxView extends AbstractView {
 
 	/** The response body name. */
 	private String responseBodyName;
-	
+
 	/** The encoding. */
 	private String encoding;
 
@@ -79,7 +79,9 @@ public class AjaxView extends AbstractView {
 		logger.info("rendering ajax view..");
 		PrintWriter writer;
 		writer = response.getWriter();
+		// set response
 		response.setContentType(getContentType());
+		response.setCharacterEncoding(encoding);
 
 		RequestContext requestContext = getRequestContext(model);
 		BindingResult bindingResult = getBindingResult(model);
@@ -158,8 +160,5 @@ public class AjaxView extends AbstractView {
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
-	
-	
-	
-	
+
 }
