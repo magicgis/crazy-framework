@@ -6,9 +6,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.beyondj2ee.crazyframework.validation.controller.Member;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.view.AbstractView;
 
 public class AjaxView extends AbstractView {
@@ -64,13 +66,41 @@ public class AjaxView extends AbstractView {
 		PrintWriter writer;
 		writer = response.getWriter();
 		response.setContentType(getContentType());
-		
-		Member member = new Member();
-		member.setUserid("id");
-		member.setName("name");
-		member.setEmail("email");
-		
-		writer.print(JsonParser.marshallingJson(member));
 
+		RequestContext requestContext = getRequestContext(model);
+		BindingResult bindingResult = getBindingResult(model);
+		String commandName = getCommandName(bindingResult);
+		
+		//binding invalid 일경우 
+		if (hasErrors(requestContext, bindingResult)) {
+			model.remove(commandName);
+		}
+
+		writer.print(JsonParser.marshallingJson(model));
+	}
+
+	protected BindingResult getBindingResult(Map model) {
+		for (Object key : model.keySet()) {
+			if (((String) key).startsWith(BindingResult.MODEL_KEY_PREFIX))
+				return (BindingResult) model.remove(key);
+		}
+		return null;
+	}
+
+	protected boolean hasErrors(RequestContext rc, BindingResult br) {
+		if (br == null)
+			return false;
+		return br.hasErrors();
+	}
+
+	protected String getCommandName(BindingResult bindingResult) {
+		if (bindingResult == null)
+			return null;
+		else
+			return bindingResult.getObjectName();
+	}
+
+	protected RequestContext getRequestContext(Map model) {
+		return (RequestContext) model.remove(getRequestContextAttribute());
 	}
 }

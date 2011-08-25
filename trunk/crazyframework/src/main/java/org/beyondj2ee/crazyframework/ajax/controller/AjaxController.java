@@ -3,14 +3,18 @@ package org.beyondj2ee.crazyframework.ajax.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.beyondj2ee.crazyframework.mybatis.domain.Account;
 import org.beyondj2ee.crazyframework.mybatis.service.account.AccountService;
+import org.beyondj2ee.crazyframework.validation.controller.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,12 +47,19 @@ public class AjaxController {
 	}
 	
 	
-	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
 	public final void getAll(final ModelMap map,
 			final HttpServletRequest request) throws Exception {
 		List<Account> accounts = this.accountService.getAll(new Account());
 		map.put("accounts", accounts);
 	}
 	
-	
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public final void create(@ModelAttribute @Valid final Member member,
+			BindingResult result, final ModelMap map,
+			final HttpServletRequest request) throws Exception {
+		if (!result.hasErrors()) {
+			logger.info("do process.............");
+		}
+	}
 }
