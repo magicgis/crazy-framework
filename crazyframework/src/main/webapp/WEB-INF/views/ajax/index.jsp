@@ -23,34 +23,82 @@
 			<tr>
 				<td align="center">아이디 <font color="red">*</font></td>
 				<td align="center"><input type="text" style="width: 92px;"
-					name="userid" /></td>
+					name="userid" id="userid" /></td>
 			</tr>
 			<tr>
 				<td align="center">이메일 <font color="red">*</font></td>
 				<td align="center"><input type="text" style="width: 92px;"
-					name="email" /></td>
+					name="email" id="email"/></td>
 			</tr>
 			<tr>
 				<td align="center">이름 <font color="red">*</font></td>
 				<td align="center"><input type="text" style="width: 92px;"
-					name="name" />
+					name="name" id="name" />
 				</td>
 			</tr>
 		</table>
-		<br/>
-		<input type="submit" value="등록"/>
+		<input type="button" value="조회" id="search" /> &nbsp;
+		<input type="button" value="저장" id="save" /> 
 	</form>
+
 	
-	<a href="<c:url value='/ajax/getAll.ajax'/>">목록 보기</a>
-	
+
 	<!-- javascript -->
-	<script src="<c:url value='/js/jquery/jquery-1.6.2.js'/>" type="text/javascript"></script>
+	<script src="<c:url value='/js/jquery/jquery-1.6.2.js'/>"
+		type="text/javascript"></script>
 
 	<script>
-	$(document).ready(function() {
-		
-	});
-	</script>
+	var listURL = "<c:url value='/ajax/getAll.ajax'/>";
+	var saveURL = "<c:url value='/ajax/create.ajax'/>";
 	
+	//-- window onLoad --------------------------------
+	$(document).ready(function() {
+        // -- search event --------------------------------
+        $("#search").bind("click", function(e) {
+        	 params = {
+ 	        };
+        	invokeAjax("POST", listURL, params, 
+       	        function (data, textStatus,xhr) {
+        			alert(xhr.responseText)
+       	        });
+    	});
+        
+     // -- save event --------------------------------
+        $("#save").bind("click", function(e) {
+        	 params = {
+       			 "userid":$("#userid").val(),
+                 "email":$("#email").val(),
+                  "name":$("#name").val()
+ 	        };
+        	invokeAjax("POST", saveURL, params, 
+       	        function (data, textStatus,xhr) {
+        			alert(xhr.responseText)
+       	        });
+    	});
+	});
+
+	//ajax library
+	function invokeAjax (method,url,parameters,handler) {
+        $.ajax({
+	      type: method,
+	      url: url,
+	      data:parameters,
+	      beforeSend:function(xhr) {
+	      },
+	      success:handler,
+	      error:function(xhr, textStatus, errorThrown) {
+	        if(xhr.status == 400) {
+	                alert(xhr.responseText);
+	        }else{
+	                alert(xhr.responseText);
+	        }
+	      },
+	      complete:function(xhr, textStatus) {
+	      },
+	      timeout:1000
+	  		});// ajax of end
+	}
+	</script>
+
 </body>
 </html>
