@@ -19,8 +19,9 @@ Eclipse://crazyframework/src/main/webapp/WEB-INF/views/mybatis/createForm.jsp
 
 http://localhost:9090/crazyframework/mybatis/getAll.htm
 
-#-- JSR
+#-- Validation
 Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/validation/controller/ValidationController.java
 
 Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/createForm.jsp
 Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/index.jsp
+Eclipse://crazyframework/src/main/webapp/WEB-INF/views/validation/createSpringForm.jsp
