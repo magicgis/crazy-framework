@@ -29,7 +29,7 @@
 	<!-- @MVC & binding convert -->
 	<mvc:annotation-driven conversion-service="conversionService" />
 	<!-- component scan (Controller) -->
-	<context:component-scan base-package="org.beyondj2ee.crazyframework.mybatis">
+	<context:component-scan base-package="org.beyondj2ee.crazyframework.shiro.controller">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
