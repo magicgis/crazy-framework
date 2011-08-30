@@ -40,5 +40,8 @@ Eclipse:/crazyframework/src/main/webapp/WEB-INF/views/ajax/index.jsp
 Eclipse:/crazyframework/src/main/resources/ajax/servlet.mvc.xml
 
 #-- shiro
+Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/shiro/controller/ShiroController.java
 Eclipse:/crazyframework/src/test/java/org/beyondj2ee/crazyframework/test/shiro/ShiroRealTest.java
-Eclipse:/crazyframework/src/main/resources/shiro/shiro.ini
+Eclipse:/crazyframework/src/main/resources/shiro/servlet.mvc.xml
+Eclipse:/crazyframework/src/main/resources/shiro/context.shiro.xml
+Eclipse:/crazyframework/src/main/webapp/WEB-INF/views/shiro/index.jsp
