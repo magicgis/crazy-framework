@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,14 +48,36 @@ public class ShiroRealTest {
 		UsernamePasswordToken token = new UsernamePasswordToken("user1",
 				"user1");
 		boolean loginSuccess = false;
-
+        Session session = subject.getSession();
+        
 		try {
 			subject.login(token);
 			loginSuccess = true;
+			session.setAttribute("user1", "user1");
 		} catch (AuthenticationException e) {
 		}
+
+		logger.info("==principal==" + subject.getPrincipal());
+		logger.info("==session==" + session.getAttribute("user1"));
+
+		if (subject.hasRole("role1")) {
+			logger.info("==role1== true");
+		} else {
+			logger.info("==role1== false");
+		}
+
+		if (subject.isPermitted("permission1")) {
+			logger.info("==permission1== true");
+		} else {
+			logger.info("==permission2== true");
+		}
 		
-		logger.info("==principal=="+subject.getPrincipal());
+		if (subject.isPermitted("permission2:*")) {
+			logger.info("==permission1== true");
+		} else {
+			logger.info("==permission2== true");
+		}
+
 		assertTrue(loginSuccess);
 	}
 }
