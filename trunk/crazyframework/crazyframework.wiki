@@ -40,5 +40,5 @@ Eclipse:/crazyframework/src/main/webapp/WEB-INF/views/ajax/index.jsp
 Eclipse:/crazyframework/src/main/resources/ajax/servlet.mvc.xml
 
 #-- shiro
-Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/shiro/Quickstart.java
+Eclipse:/crazyframework/src/test/java/org/beyondj2ee/crazyframework/test/shiro/ShiroRealTest.java
 Eclipse:/crazyframework/src/main/resources/shiro/shiro.ini
