@@ -48,7 +48,7 @@
 			<list>
 				<bean
 					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-					<property name="prefix" value="/WEB-INF/views/mybatis/" />
+					<property name="prefix" value="/WEB-INF/views/shiro/" />
 					<property name="suffix" value=".jsp" />
 				</bean>
 			</list>
