@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-@ContextConfiguration({ "classpath*:/**/context.*.xml" })
+@ContextConfiguration({ "classpath:/mybatis/context.mybatis.xml", "classpath:/context.datasource.xml","classpath:/shiro/shiro.standalone.xml"})
 public class ShiroRealTest {
 
 	private static final Logger logger = LoggerFactory
