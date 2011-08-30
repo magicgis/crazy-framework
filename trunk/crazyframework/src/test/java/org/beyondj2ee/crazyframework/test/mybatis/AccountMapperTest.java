@@ -121,7 +121,7 @@ public class AccountMapperTest {
 	 *
 	 * @throws Exception the exception
 	 */
-//	@Test
+	@Test
 	@Rollback(true)
 	public void testBatchAccounts() throws Exception {
 		

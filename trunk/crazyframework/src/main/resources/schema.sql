@@ -10,3 +10,6 @@ create table account (
 INSERT INTO account VALUES('id1','beyondj2ee@gmail.com','justine');
 INSERT INTO account VALUES('id2','beyondj2ee+mybatis@gmail.com','daniel');
 commit;
+
+
+
