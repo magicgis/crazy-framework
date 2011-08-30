@@ -1,3 +1,7 @@
+#-- Commons
+Eclipse:/crazyframework/src/main/resources/context.datasource.xml
+Eclipse:/crazyframework/src/main/resources/schema.sql
+
 #-- MyBatis 
 Eclipse:/crazyframework/src/main/resources/mybatis/context.mybatis.xml
 Eclipse:/crazyframework/src/main/java/org/beyondj2ee/crazyframework/mybatis/mapper/AccountBatchMapper.java
