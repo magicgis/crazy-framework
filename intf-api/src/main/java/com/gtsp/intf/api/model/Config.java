@@ -11,7 +11,7 @@ import java.util.Properties;
 public class Config {
 
 	/** The Constant DEFAULT_CONFIG_PATH. */
-	private static final String DEFAULT_CONFIG_PATH = "/intf-core/intf.properties";
+	private static final String DEFAULT_CONFIG_PATH = "/intf-config/intf.properties";
 
 	/** The config map. */
 	private static Properties properties;
