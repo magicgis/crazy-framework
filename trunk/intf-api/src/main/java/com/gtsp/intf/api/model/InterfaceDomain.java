@@ -2,6 +2,7 @@ package com.gtsp.intf.api.model;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class InterfaceDomain.
  */
@@ -14,6 +15,7 @@ public class InterfaceDomain implements Serializable {
 	/** 요청 타입. */
 	private RequestType requestType;
 	
+	/** The response type. */
 	private ResponseType responseType;
 
 	/** global store Id. */
@@ -37,6 +39,9 @@ public class InterfaceDomain implements Serializable {
 
 	/** 요청이 multipart인지 구분자. 기본값은 false */
 	private boolean multipart = false;
+	
+	/** 저장될 경로. */
+	private String filePath;
 
 	/**
 	 * Gets the request type.
@@ -217,5 +222,24 @@ public class InterfaceDomain implements Serializable {
 	public void setResponseType(ResponseType responseType) {
 		this.responseType = responseType;
 	}
+
+	/**
+	 * Gets the file path.
+	 *
+	 * @return the file path
+	 */
+	public String getFilePath() {
+		return filePath;
+	}
+
+	/**
+	 * Sets the file path.
+	 *
+	 * @param filePath the new file path
+	 */
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	
 	
 }
