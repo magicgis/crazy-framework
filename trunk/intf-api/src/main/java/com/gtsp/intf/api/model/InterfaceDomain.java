@@ -43,6 +43,8 @@ public class InterfaceDomain implements Serializable {
 	/** 저장될 경로. */
 	private String filePath;
 
+	/** The ssl. */
+	private boolean ssl;
 	/**
 	 * Gets the request type.
 	 *
@@ -239,6 +241,24 @@ public class InterfaceDomain implements Serializable {
 	 */
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	/**
+	 * Checks if is ssl.
+	 *
+	 * @return true, if is ssl
+	 */
+	public boolean isSsl() {
+		return ssl;
+	}
+
+	/**
+	 * Sets the ssl.
+	 *
+	 * @param ssl the new ssl
+	 */
+	public void setSsl(boolean ssl) {
+		this.ssl = ssl;
 	}
 	
 	
