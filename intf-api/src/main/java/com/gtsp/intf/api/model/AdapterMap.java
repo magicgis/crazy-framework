@@ -31,6 +31,9 @@ public class AdapterMap extends HashMap{
 	/** The ssl 사용 유무. */
 	private boolean ssl;
 	
+	/** 다운 로드 받을 디렉토리 정보. */
+	private String filePath;
+	
 	/**
 	 * Gets the request url.
 	 *
@@ -139,13 +142,39 @@ public class AdapterMap extends HashMap{
 		this.resultCode = resultCode;
 	}
 
+	/**
+	 * Checks if is ssl.
+	 *
+	 * @return true, if is ssl
+	 */
 	public boolean isSsl() {
 		return ssl;
 	}
 
+	/**
+	 * Sets the ssl.
+	 *
+	 * @param ssl the new ssl
+	 */
 	public void setSsl(boolean ssl) {
 		this.ssl = ssl;
 	}
-	
-	
+
+	/**
+	 * Gets the file path.
+	 *
+	 * @return the file path
+	 */
+	public String getFilePath() {
+		return filePath;
+	}
+
+	/**
+	 * Sets the file path.
+	 *
+	 * @param filePath the new file path
+	 */
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 }
