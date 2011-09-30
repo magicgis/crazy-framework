@@ -1,0 +1,5 @@
+#surefire
+#Fri Sep 30 09:49:55 KST 2011
+user.dir=C\:\\tstore-project\\workspaces\\intf-api
+localRepository=C\:\\tstore-project\\.m2
+basedir=C\:\\tstore-project\\workspaces\\intf-api
