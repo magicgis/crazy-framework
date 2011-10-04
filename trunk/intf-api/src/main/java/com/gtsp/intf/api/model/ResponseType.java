@@ -8,6 +8,9 @@ public enum ResponseType {
 	/** URL 방식. */
 	URL("URL"),
 	
+	/** PGGATE URL. */
+	GATEWAYURL("GATEWAYURL"),
+	
 	/** API 방식. */
 	API("API");
 	
